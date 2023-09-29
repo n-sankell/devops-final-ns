@@ -21,7 +21,20 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.rest-assured:rest-assured:5.3.2'
+}
 
+jacoco {
+	toolVersion = '0.8.7'
+}
+
+test {
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	reports {
+		html.destination file("build/reports/jacoco")
+	}
 }
 
 tasks.named('test') {
