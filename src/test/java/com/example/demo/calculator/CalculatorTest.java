@@ -61,7 +61,37 @@ class CalculatorTest {
 
     @Test
     void parseOperandLength() {
+        Throwable exception = assertThrows(RuntimeException.class, () ->
+                calculator.parseOperand("//"));
+        assertEquals(Constants.WRONG_LENGTH, exception.getMessage());
+    }
 
+    @Test
+    void divideWithZeroExpectException() {
+        Throwable exception = assertThrows(RuntimeException.class, () ->
+                calculator.calculate("5", "0", "/"));
+        assertEquals(Constants.DIVIDE_ZERO, exception.getMessage());
+    }
+
+    @Test
+    void wrongOperandExpectException() {
+        Throwable exception = assertThrows(RuntimeException.class, () ->
+                calculator.calculate("5", "5", "a"));
+        assertEquals(Constants.DISALLOWED_OPERAND, exception.getMessage());
+    }
+
+    @Test
+    void wrongOperandLengthExpectException() {
+        Throwable exception = assertThrows(RuntimeException.class, () ->
+                calculator.calculate("5", "5", "++"));
+        assertEquals(Constants.WRONG_LENGTH, exception.getMessage());
+    }
+
+    @Test
+    void wrongNumberExpectException() {
+        Throwable exception = assertThrows(RuntimeException.class, () ->
+                calculator.calculate("h", "5", "+"));
+        assertEquals(Constants.NOT_A_NUMBER, exception.getMessage());
     }
 
 }

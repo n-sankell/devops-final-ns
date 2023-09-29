@@ -12,13 +12,13 @@ public class Calculator {
                 case '*' -> { return x * y; }
                 case '/' -> {
                     if (y == 0) {
-                        throw new RuntimeException("Cant divide with zero");
+                        throw new RuntimeException(Constants.DIVIDE_ZERO);
                     }
                     return x / y; }
-                default -> throw new RuntimeException("Operand is not allowed");
+                default -> throw new RuntimeException(Constants.DISALLOWED_OPERAND);
             }
         } catch (NumberFormatException e) {
-            throw new RuntimeException("Not a number");
+            throw new RuntimeException(Constants.NOT_A_NUMBER);
         }
     }
 
@@ -26,7 +26,7 @@ public class Calculator {
         if (operand.length() == 1) {
             return operand.charAt(0);
         }
-        throw new RuntimeException("Wrong length");
+        throw new RuntimeException(Constants.WRONG_LENGTH);
     }
 
 }
