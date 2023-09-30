@@ -50,7 +50,7 @@ jobs:
           pkill -f "CalculatorApplication"
           
   push_to_registries:
-    needs: build
+    needs: build_and_test
     name: Push Docker image Github Packages
     runs-on: ubuntu-latest
     permissions:
