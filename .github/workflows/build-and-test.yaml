@@ -32,9 +32,16 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Set permission
         run: chmod +x ./gradlew
+
+  tests:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Run Unit Tests
         run: |
           ./gradlew test
+    
 
   push_to_registries:
     needs: build
