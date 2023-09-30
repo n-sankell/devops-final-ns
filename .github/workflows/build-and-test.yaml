@@ -35,26 +35,11 @@ jobs:
 
       - name: Set permission
         run: chmod +x ./gradlew
-
-  tests:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          path: ./ 
-
-      - name: Set permission
-        run: chmod +x ./gradlew
-
-      - name: Run Unit Tests
-        run: |
-          ./gradlew test    
+      - name: build
+        run: ./gradlew build
           
   push_to_registries:
-    needs: [build, tests]
+    needs: [build]
     name: Push Docker image Github Packages
     runs-on: ubuntu-latest
     permissions:
