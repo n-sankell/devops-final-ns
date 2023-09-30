@@ -12,7 +12,7 @@ on:
       - leandros-branch
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,11 +35,22 @@ jobs:
 
       - name: Set permission
         run: chmod +x ./gradlew
-      - name: build
-        run: ./gradlew build
+
+      - name: Start Application
+        run: |
+          ./gradlew bootRun &
+          sleep 30
+
+      - name: Run Tests
+        run: |
+          ./gradlew test
+
+      - name: Stop Application
+        run: |
+          pkill -f "CalculatorApplication"
           
   push_to_registries:
-    needs: [build]
+    needs: build
     name: Push Docker image Github Packages
     runs-on: ubuntu-latest
     permissions:
