@@ -38,6 +38,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set permission
+        run: chmod +x ./gradlew
       - name: Run Unit Tests
         run: |
           ./gradlew test
