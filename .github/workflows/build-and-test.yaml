@@ -36,9 +36,6 @@ jobs:
       - name: Set permission
         run: chmod +x ./gradlew
 
-      - name: Build
-        run: ./gradlew build
-
   tests:
     needs: build
     runs-on: ubuntu-latest
