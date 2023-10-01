@@ -21,6 +21,10 @@ jobs:
   build_and_test:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -54,15 +58,6 @@ jobs:
       - name: Stop Application
         run: |
           pkill -f "CalculatorApplication"
-          
-  build-and-push-image:
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -89,3 +84,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      
