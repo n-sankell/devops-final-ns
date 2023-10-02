@@ -2,45 +2,31 @@ package com.example.demo.controller;
 
 import com.example.demo.calculator.Constants;
 import com.example.demo.request.CalculateRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import com.example.demo.service.CalculatorService;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CalculatorControllerTest {
 
-    public final ObjectMapper objectMapper = new ObjectMapper();
+    private final CalculatorController controller = new CalculatorController(new CalculatorService());
 
     @Test
-    public void testCalculatorEndpointCorrectResult() throws JsonProcessingException {
+    void testCalculatorEndpointCorrectResult() {
         CalculateRequest request = new CalculateRequest("1","1","+");
-        RestAssured.baseURI = "http://localhost:8080";
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
-                .when()
-                .post("/calculate")
-                .then()
-                .statusCode(200)
-                .body(equalTo("2.0"));
+        ResponseEntity<String> response = controller.calculate(request);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("2.0", response.getBody());
     }
 
     @Test
-    public void testCalculatorErrorMessage() throws JsonProcessingException {
-        CalculateRequest request = new CalculateRequest("1","1","h");
-        RestAssured.baseURI = "http://localhost:8080";
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
-                .when()
-                .post("/calculate")
-                .then()
-                .statusCode(400)
-                .body(equalTo(Constants.DISALLOWED_OPERAND));
+    void testCalculatorErrorMessage() {
+        CalculateRequest request = new CalculateRequest("1","1",null);
+        ResponseEntity<String> response = controller.calculate(request);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(Constants.DISALLOWED_OPERATOR, response.getBody());
     }
 
 }

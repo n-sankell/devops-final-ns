@@ -32,6 +32,15 @@ test {
 }
 
 jacocoTestReport {
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					"com/example/demo/calculator/Constants.class",
+					"com/example/demo/request/CalculateRequest.class",
+					"com/example/demo/CalculatorApplication.class"
+			])
+		}))
+	}
 	reports {
 		html.destination file("build/reports/jacoco")
 	}

@@ -19,9 +19,9 @@ public class CalculatorController {
     }
 
     @PostMapping("/calculate")
-    public ResponseEntity<?> calculate(@RequestBody CalculateRequest request) {
+    public ResponseEntity<String> calculate(@RequestBody CalculateRequest request) {
         try {
-            return ResponseEntity.ok().body(calculatorService.calculate(request));
+            return ResponseEntity.ok().body(String.valueOf(calculatorService.calculate(request)));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -10,7 +10,7 @@ public class CalculatorService {
     private final Calculator calculator = new Calculator();
 
     public double calculate(CalculateRequest request) {
-        return calculator.calculate(request.x(), request.y(), request.operand());
+        return calculator.calculate(request.x(), request.y(), request.operator());
     }
 
 }

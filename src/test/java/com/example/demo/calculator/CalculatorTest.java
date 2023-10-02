@@ -15,6 +15,11 @@ class CalculatorTest {
     }
 
     @Test
+    void constants() {
+        assertNotNull(Constants.NOT_A_NUMBER);
+    }
+
+    @Test
     void calculateAdd() {
         assertEquals(calculator.calculate("5", "7", "+"), 12, 0);
     }
@@ -56,14 +61,21 @@ class CalculatorTest {
 
     @Test
     void parseOperand() {
-        assertEquals(calculator.parseOperand("*"), '*');
+        assertEquals(calculator.parseOperator("*"), '*');
     }
 
     @Test
     void parseOperandLength() {
         Throwable exception = assertThrows(RuntimeException.class, () ->
-                calculator.parseOperand("//"));
+                calculator.parseOperator("//"));
         assertEquals(Constants.WRONG_LENGTH, exception.getMessage());
+    }
+
+    @Test
+    void parseOperandNull() {
+        Throwable exception = assertThrows(RuntimeException.class, () ->
+                calculator.parseOperator(null));
+        assertEquals(Constants.DISALLOWED_OPERATOR, exception.getMessage());
     }
 
     @Test
@@ -77,7 +89,7 @@ class CalculatorTest {
     void wrongOperandExpectException() {
         Throwable exception = assertThrows(RuntimeException.class, () ->
                 calculator.calculate("5", "5", "a"));
-        assertEquals(Constants.DISALLOWED_OPERAND, exception.getMessage());
+        assertEquals(Constants.DISALLOWED_OPERATOR, exception.getMessage());
     }
 
     @Test
