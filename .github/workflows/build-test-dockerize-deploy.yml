@@ -36,11 +36,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Set permission
         run: chmod +x ./gradlew
-
-      - name: Start Application
-        run: |
-          ./gradlew bootRun &
-          sleep 30
+        
       - name: Run Tests
         run: |
           ./gradlew test --tests CalculatorTest
@@ -67,6 +63,10 @@ jobs:
           
     - name: Set permission
       run: chmod +x ./gradlew
+    - name: Start Application
+      run: |
+          ./gradlew bootRun &
+          sleep 30
     - name: Run IntegrationTest tests
       run: ./gradlew test --tests CalculatorControllerTest
     
