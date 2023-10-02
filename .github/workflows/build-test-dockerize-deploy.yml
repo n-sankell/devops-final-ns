@@ -34,17 +34,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Set permission
+      - name: Make Gradle Executable
         run: chmod +x ./gradlew
         
       - name: Run Tests
         run: |
           ./gradlew test --tests CalculatorTest
-      - name: Boot Jar
+      - name: Generate Bootable Jar
         run: |
           ./gradlew bootJar
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
   run_integration_test:
     needs: build_and_test
@@ -58,7 +56,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-    - name: Set permission
+    - name: Make Gradle Executable
       run: chmod +x ./gradlew
     - name: Start Application
       run: |
@@ -94,10 +92,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Set permission
+      - name: Make Gradle Executable
         run: chmod +x ./gradlew
      
-      - name: Boot jar
+      - name: Generate Bootable Jar
         run: |
           ./gradlew bootJar 
       
