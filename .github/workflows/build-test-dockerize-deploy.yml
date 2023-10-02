@@ -64,11 +64,14 @@ jobs:
       with:
           java-version: '17'
           distribution: 'temurin'
+          
+    - name: Set permission
+      run: chmod +x ./gradlew
     - name: Run IntegrationTest tests
       run: ./gradlew test --tests CalculatorControllerTest
     
   build-and-push-image:
-    needs: build_and_test
+    needs: run_integration_test
     runs-on: ubuntu-latest
     permissions:
           contents: read
