@@ -43,9 +43,6 @@ jobs:
       - name: Boot Jar
         run: |
           ./gradlew bootJar
-      - name: Stop Application
-        run: |
-          pkill -f "CalculatorApplication"
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -69,6 +66,9 @@ jobs:
           sleep 30
     - name: Run IntegrationTest tests
       run: ./gradlew test --tests CalculatorControllerTest
+    - name: Stop Application
+      run: |
+        pkill -f "CalculatorApplication"
     
   build-and-push-image:
     needs: run_integration_test
