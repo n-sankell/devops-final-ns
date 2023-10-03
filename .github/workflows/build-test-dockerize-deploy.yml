@@ -10,12 +10,11 @@ env:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
       packages: write
-
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -32,11 +31,24 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
       - name: Make Gradle Executable
         run: chmod +x ./gradlew
         
       - name: Run Tests
         run: ./gradlew test --tests *com*
+
+      - name: Check Code Coverage
+        run: |
+          COVERAGE=$(grep -E 'Overall coverage rate:' build/reports/jacoco/test/jacocoTestReport.xml | awk -F ' ' '{print $4}')
+          echo $OVERAGE
+          REQUIRED_COVERAGE=80
+          
+          if (( $(echo "$COVERAGE < $REQUIRED_COVERAGE" | bc -l) )); then
+            echo "Code coverage is below the required threshold ($REQUIRED_COVERAGE%)"
+            exit 1
+          fi
+
       - name: Generate Bootable Jar
         run: |
           ./gradlew bootJar
@@ -45,6 +57,7 @@ jobs:
     needs: build_and_test
     runs-on: ubuntu-latest
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -59,8 +72,10 @@ jobs:
       run: |
           ./gradlew bootRun &
           sleep 30
+
     - name: Run IntegrationTest tests
       run: ./gradlew test --tests *integration*
+
     - name: Stop Application
       run: |
         pkill -f "CalculatorApplication"
@@ -89,6 +104,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
       - name: Make Gradle Executable
         run: chmod +x ./gradlew
      
@@ -119,10 +135,12 @@ jobs:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
+
   deploy_simulation:
     needs: build-and-push-image
     runs-on: ubuntu-latest
     steps:
+
       - name: Echo Image Name
         run: |
             echo "Deploying image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
