@@ -41,13 +41,14 @@ jobs:
       - name: Check Code Coverage
         run: |
           COVERAGE=$(grep -E 'Overall coverage rate:' build/reports/jacoco/test/jacocoTestReport.xml | awk -F ' ' '{print $4}')
-          echo $OVERAGE
+
           REQUIRED_COVERAGE=80
           
           if (( $(echo "$COVERAGE < $REQUIRED_COVERAGE" | bc -l) )); then
             echo "Code coverage is below the required threshold ($REQUIRED_COVERAGE%)"
             exit 1
           fi
+        shell: bash
 
       - name: Generate Bootable Jar
         run: |
