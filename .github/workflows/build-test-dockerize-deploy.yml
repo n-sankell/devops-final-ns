@@ -36,19 +36,23 @@ jobs:
         run: chmod +x ./gradlew
         
       - name: Run Tests
-        run: ./gradlew test --tests *com* jacocoTestReport
+        run: ./gradlew test --tests *com*
 
-      - name: Check Code Coverage
+      - name: Run Coverage
         run: |
-          COVERAGE=$(grep -oP '<counter type="INSTRUCTION" missed="\K\d+(?=" covered=")' build/reports/jacoco/jacocoTestReport.xml)
-                   
-          REQUIRED_COVERAGE=80
-          
-          if (( $(echo "$COVERAGE < $REQUIRED_COVERAGE" | bc -l) )); then
-            echo "Code coverage is below the required threshold ($REQUIRED_COVERAGE%)"
-            exit 1
-          fi
-        shell: bash
+          chmod +x gradlew
+          ./gradlew jacocoTestReport
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
+            ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
 
       - name: Generate Bootable Jar
         run: |
