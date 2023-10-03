@@ -41,7 +41,9 @@ jobs:
       - name: Check Code Coverage
         run: |
           COVERAGE=$(grep -E 'Overall coverage rate:' build/reports/jacoco/jacocoTestReport.xml | awk -F ' ' '{print $4}')
-
+          
+          echo $COVERAGE
+          
           REQUIRED_COVERAGE=80
           
           if (( $(echo "$COVERAGE < $REQUIRED_COVERAGE" | bc -l) )); then
