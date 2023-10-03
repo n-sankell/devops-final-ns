@@ -49,7 +49,6 @@ jacocoTestReport {
 tasks.named('test') {
 	useJUnitPlatform()
 	testLogging {
-		events 'passed', 'failed'
+		events 'passed', 'skipped', 'failed'
 	}
 }
-

@@ -36,8 +36,7 @@ jobs:
         run: chmod +x ./gradlew
         
       - name: Run Tests
-        run: |
-          ./gradlew test --tests CalculatorTest
+        run: ./gradlew test --tests *com*
       - name: Generate Bootable Jar
         run: |
           ./gradlew bootJar
@@ -61,7 +60,7 @@ jobs:
           ./gradlew bootRun &
           sleep 30
     - name: Run IntegrationTest tests
-      run: ./gradlew test --tests CalculatorControllerTest
+      run: ./gradlew test --tests *integration*
     - name: Stop Application
       run: |
         pkill -f "CalculatorApplication"

@@ -1,4 +1,4 @@
-package com.example.demo.integration;
+package integration;
 
 import com.example.demo.calculator.Constants;
 import com.example.demo.request.CalculateRequest;
