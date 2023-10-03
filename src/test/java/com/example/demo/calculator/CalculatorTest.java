@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
-/*
 
     public Calculator calculator;
 
@@ -106,8 +105,5 @@ class CalculatorTest {
                 calculator.calculate("h", "5", "+"));
         assertEquals(Constants.NOT_A_NUMBER, exception.getMessage());
     }
-
-
-*/
 
 }
