@@ -1,10 +1,8 @@
 name: Build and test with Gradle
 
 on:
-  push:
-    branches:
-      - metadata-action
-      
+  [push]
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
