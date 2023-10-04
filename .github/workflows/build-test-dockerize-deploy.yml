@@ -6,7 +6,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  MIN_COVERAGE: 80.0
+  MIN_COVERAGE: 80
   
 jobs:
   build-test-check-coverage:
@@ -58,7 +58,7 @@ jobs:
         echo "MIN_COVERAGE: ${{ env.MIN_COVERAGE }}"
 
     - name: Require ${{ env.MIN_COVERAGE }}% coverage
-      if: ${{ steps.jacoco.outputs.coverage-overall < env.MIN_COVERAGE }}
+      if: ${{ steps.jacoco.outputs.coverage-overall < 80 }}
       uses: actions/github-script@v6
       with:
         script: |
