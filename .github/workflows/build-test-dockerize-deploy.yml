@@ -60,7 +60,7 @@ jobs:
     - name: Require ${{ env.MIN_COVERAGE }}% coverage
       env:
         MIN: ${{ env.MIN_COVERAGE }}
-      if: ${{ steps.jacoco.outputs.coverage-overall < $MIN }}
+      if: ${{ steps.jacoco.outputs.coverage-overall < MIN }}
       uses: actions/github-script@v6
       with:
         script: |
