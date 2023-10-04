@@ -11,6 +11,10 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
+/**
+* This test class performs an integration-test to the /calculate end-point.
+* Rest Assured and ObjectMapper is used to test the end-point.
+*/
 public class IntegrationTest {
 
     public final ObjectMapper objectMapper = new ObjectMapper();

@@ -8,6 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+* This class contains the controller for the calculator.
+* Communication with the actual calculator through CalculatorService.
+*/
 @Controller
 public class CalculatorController {
 
@@ -18,6 +22,12 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
+    /**
+    * This method gets called through the /calculate end-point.
+    * Returns either an error message or the String value of the calculation.
+    *
+    * @param request request body CalculateRequest.
+    */
     @PostMapping("/calculate")
     public ResponseEntity<String> calculate(@RequestBody CalculateRequest request) {
         try {

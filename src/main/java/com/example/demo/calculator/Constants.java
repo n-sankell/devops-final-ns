@@ -1,5 +1,8 @@
 package com.example.demo.calculator;
 
+/**
+* This class contains constants that are used as response messages.
+*/
 public final class Constants {
 
     public static final String DIVIDE_ZERO = "Cant divide by zero";
