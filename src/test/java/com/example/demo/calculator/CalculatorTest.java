@@ -31,7 +31,7 @@ class CalculatorTest {
 
     @Test
     void calculateSubtractFalse() {
-        assertNotEquals(calculator.calculate("5", "7", "-"), -3, 0);
+        assertNotEquals(-3, calculator.calculate("5", "7", "-"), 0);
     }
 
     @Test
