@@ -38,18 +38,6 @@ jobs:
     - name: Run Tests
       run: ./gradlew test --tests *com*
 
-    - name: Generate Bootable Jar
-      run: ./gradlew bootJar
-
-    - name: Run Coverage
-      run: ./gradlew jacocoTestReport
-
-    - name: Upload Report
-      uses: 'actions/upload-artifact@v2'
-      with:
-        name: report.xml
-        path: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
-
     - name: Jacoco Report to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
