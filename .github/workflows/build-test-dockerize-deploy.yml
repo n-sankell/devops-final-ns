@@ -8,7 +8,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   
 jobs:
-  build-and-test:
+  build-test-check-coverage:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -71,7 +71,7 @@ jobs:
           core.setFailed('Overall coverage is less than 80%!')
 
   run-integration-test:
-    needs: check-code-coverage
+    needs: build-test-check-coverage
     runs-on: ubuntu-latest
     steps:
 
