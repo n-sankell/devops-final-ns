@@ -1,7 +1,7 @@
 name: Build and test with Gradle
 
 on:
-  [pull_request]
+  [push]
 
 env:
   REGISTRY: ghcr.io
@@ -52,11 +52,12 @@ jobs:
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
+          paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
-          debug-mode: false
+          title: Code Coverage
+          update-comment: true
 
       - name: Get the Coverage info
         run: |
