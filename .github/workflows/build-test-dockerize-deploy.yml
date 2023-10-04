@@ -8,7 +8,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   
 jobs:
-  build-and-test:
+  build-test-check-coverage:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -63,22 +63,15 @@ jobs:
         debug-mode: false
         update-comment: true
 
-  check-code-coverage:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: read
-      packages: write
-    steps:
-
-    - name: Get the Coverage info
-      run: |
-        echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-        echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
+    - name: Require 80% coverage
+      if: ${{ steps.jacoco.outputs.coverage-overall < 80.0 }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          core.setFailed('Overall coverage is less than 80%!')
 
   run-integration-test:
-    needs: check-code-coverage
+    needs: build-test-check-coverage
     runs-on: ubuntu-latest
     steps:
 

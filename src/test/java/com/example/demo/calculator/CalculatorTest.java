@@ -14,8 +14,6 @@ class CalculatorTest {
         calculator = new Calculator();
     }
 
-    /*
-
     @Test
     void calculateAdd() {
         assertEquals(calculator.calculate("5", "7", "+"), 12, 0);
@@ -102,7 +100,5 @@ class CalculatorTest {
                 calculator.calculate("h", "5", "+"));
         assertEquals(Constants.NOT_A_NUMBER, exception.getMessage());
     }
-
-     */
 
 }
