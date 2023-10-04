@@ -77,10 +77,14 @@ jobs:
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
       with:
-        paths: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
+        paths: |
+          ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
+          ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
+          ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
         token: ${{ secrets.GITHUB_TOKEN }}
-        min-coverage-overall: 40
-        min-coverage-changed-files: 60
+        title: Coverage report coverage - ${steps.jacoco.outputs.coverage-overall
+        min-coverage-overall: 80
+        min-coverage-changed-files: 80
         debug-mode: false
 
     - name: Get the Coverage info
