@@ -1,7 +1,7 @@
 name: Build and test with Gradle
 
 on:
-  [push]
+  [push, pull_request]
 
 env:
   REGISTRY: ghcr.io
