@@ -47,6 +47,18 @@ jobs:
       pull-requests: write
     steps:
 
+    - name: Checkout code
+      uses: actions/checkout@v
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Make Gradle Executable
+      run: chmod +x ./gradlew
+
     - name: Run Coverage
       run: ./gradlew jacocoTestReport
 
@@ -78,6 +90,7 @@ jobs:
 
     - name: Checkout code
       uses: actions/checkout@v3
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -86,6 +99,7 @@ jobs:
           
     - name: Make Gradle Executable
       run: chmod +x ./gradlew
+
     - name: Start Application
       run: |
           ./gradlew bootRun &
