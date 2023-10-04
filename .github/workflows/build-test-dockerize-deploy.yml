@@ -1,74 +1,78 @@
 name: Build and test with Gradle
 
 on:
-  [push]
+  [pull_request]
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   
 jobs:
-  build_and_test:
+  build-and-test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Make Gradle Executable
+      run: chmod +x ./gradlew
+
+    - name: Run Tests
+      run: ./gradlew test --tests *com*
+
+    - name: Generate Bootable Jar
+      run: ./gradlew bootJar
+
+  check-code-coverage:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
       pull-requests: write
     steps:
 
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Run Coverage
+      run: ./gradlew jacocoTestReport
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Upload Report
+      uses: 'actions/upload-artifact@v2'
+      with:
+        name: report.xml
+        path: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+    - name: Jacoco Report to PR
+      id: jacoco
+      uses: madrapps/jacoco-report@v1.6.1
+      with:
+        paths: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        min-coverage-overall: 40
+        min-coverage-changed-files: 60
+        debug-mode: false
 
-      - name: Make Gradle Executable
-        run: chmod +x ./gradlew
-        
-      - name: Run Tests
-        run: ./gradlew test --tests *com*
+    - name: Get the Coverage info
+      run: |
+        echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+        echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
-      - name: Run Coverage
-        run: ./gradlew jacocoTestReport
-
-      - name: Upload Report
-        uses: 'actions/upload-artifact@v2'
-        with:
-          name: report.xml
-          path: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
-
-      - name: Jacoco Report to PR
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.6.1
-        with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 40
-          min-coverage-changed-files: 60
-          debug-mode: false
-
-      - name: Get the Coverage info
-        run: |
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
-
-      - name: Generate Bootable Jar
-        run: |
-          ./gradlew bootJar
-
-  run_integration_test:
-    needs: build_and_test
+  run-integration-test:
+    needs: check-code-coverage
     runs-on: ubuntu-latest
     steps:
 
@@ -95,7 +99,7 @@ jobs:
         pkill -f "CalculatorApplication"
     
   build-and-push-image:
-    needs: run_integration_test
+    needs: run-integration-test
     runs-on: ubuntu-latest
     permissions:
           contents: read
