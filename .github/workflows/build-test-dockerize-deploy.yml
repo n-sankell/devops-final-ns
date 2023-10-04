@@ -6,6 +6,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  MIN_COVERAGE: 80
   
 jobs:
   build-test-check-coverage:
@@ -38,18 +39,6 @@ jobs:
     - name: Run Tests
       run: ./gradlew test --tests *com*
 
-    - name: Generate Bootable Jar
-      run: ./gradlew bootJar
-
-    - name: Run Coverage
-      run: ./gradlew jacocoTestReport
-
-    - name: Upload Report
-      uses: 'actions/upload-artifact@v2'
-      with:
-        name: report.xml
-        path: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
-
     - name: Jacoco Report to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
@@ -57,18 +46,22 @@ jobs:
         paths: |
           ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
         token: ${{ secrets.GITHUB_TOKEN }}
-        title: Coverage report, requires 80%
-        min-coverage-overall: 80
-        min-coverage-changed-files: 80
+        title: Coverage report (requires  ${{ env.MIN_COVERAGE }}%)
+        min-coverage-overall: ${{ env.MIN_COVERAGE }}
+        min-coverage-changed-files: ${{ env.MIN_COVERAGE }}
         debug-mode: false
         update-comment: true
 
-    - name: Require 80% coverage
-      if: ${{ steps.jacoco.outputs.coverage-overall < 80.0 }}
+    - name: Require ${{ env.MIN_COVERAGE }}% coverage
+      env:
+        MIN: ${{ env.MIN_COVERAGE }}
+        COVERAGE: ${{ steps.jacoco.outputs.coverage-overall }}
+
+      if: env.COVERAGE < 80
       uses: actions/github-script@v6
       with:
         script: |
-          core.setFailed('Overall coverage is less than 80%!')
+          core.setFailed('Overall coverage is less than ${{ env.MIN_COVERAGE }}%!')
 
   run-integration-test:
     needs: build-test-check-coverage
