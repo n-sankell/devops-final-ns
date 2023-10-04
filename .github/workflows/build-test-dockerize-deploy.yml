@@ -37,7 +37,7 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Run Tests
-      run: ./gradlew test --tests *com*
+      run: ./gradlew test
 
     - name: Jacoco Report to PR
       id: jacoco
@@ -80,17 +80,8 @@ jobs:
     - name: Make Gradle Executable
       run: chmod +x ./gradlew
 
-    - name: Start Application
-      run: |
-          ./gradlew bootRun &
-          sleep 30
-
     - name: Run IntegrationTest tests
-      run: ./gradlew test --tests *integration*
-
-    - name: Stop Application
-      run: |
-        pkill -f "CalculatorApplication"
+      run: ./gradlew integrationTest
     
   build-and-push-image:
     needs: run-integration-test

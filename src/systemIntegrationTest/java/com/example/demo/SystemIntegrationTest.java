@@ -1,7 +1,4 @@
-package integration;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
+package com.example.demo;
 
 import com.example.demo.calculator.Constants;
 import com.example.demo.request.CalculateRequest;
@@ -11,11 +8,14 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+
 /**
-* This test class performs an integration-test to the /calculate end-point.
+* This test class performs a system level integration-test to the /calculate end-point.
 * Rest Assured and ObjectMapper is used to test the end-point.
 */
-public class IntegrationTest {
+public class SystemIntegrationTest {
 
     public final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -48,4 +48,3 @@ public class IntegrationTest {
     }
 
 }
-

@@ -24,12 +24,50 @@ dependencies {
 	testImplementation 'io.rest-assured:rest-assured:5.3.2'
 }
 
-jacoco {
-	toolVersion = '0.8.7'
+sourceSets {
+	integrationTest {
+		java.srcDir file('src/integrationTest/java')
+		resources.srcDir file('src/integrationTest/resources')
+		compileClasspath += sourceSets.main.output + sourceSets.test.output
+		runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+	}
+	systemIntegrationTest {
+		java.srcDir file('src/systemIntegrationTest/java')
+		resources.srcDir file('src/systemIntegrationTest/resources')
+		compileClasspath += sourceSets.main.output + sourceSets.test.output
+		runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+	}
 }
 
-test {
-	finalizedBy jacocoTestReport
+configurations {
+	integrationTestImplementation.extendsFrom testImplementation
+	integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+	systemIntegrationTestImplementation.extendsFrom testImplementation
+	systemIntegrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+tasks.register('integrationTest', Test) {
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
+	mustRunAfter test
+	useJUnitPlatform()
+	testLogging {
+		events "PASSED", "FAILED", "SKIPPED"
+	}
+}
+
+tasks.register('systemIntegrationTest', Test) {
+	testClassesDirs = sourceSets.systemIntegrationTest.output.classesDirs
+	classpath = sourceSets.systemIntegrationTest.runtimeClasspath
+	mustRunAfter integrationTest
+	useJUnitPlatform()
+	testLogging {
+		events "PASSED", "FAILED", "SKIPPED"
+	}
+}
+
+jacoco {
+	toolVersion = '0.8.7'
 }
 
 jacocoTestReport {
@@ -54,6 +92,7 @@ tasks.named('test') {
 	testLogging {
 		events 'passed', 'skipped', 'failed'
 	}
+	finalizedBy jacocoTestReport
 }
 
 checkstyle {
