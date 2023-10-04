@@ -52,6 +52,11 @@ jobs:
         debug-mode: false
         update-comment: true
 
+    - name: Debug Output
+      run: |
+        echo "Coverage Overall: ${{ steps.jacoco.outputs.coverage-overall }}"
+        echo "MIN_COVERAGE: ${{ env.MIN_COVERAGE }}"
+
     - name: Require ${{ env.MIN_COVERAGE }}% coverage
       if: ${{ steps.jacoco.outputs.coverage-overall < float(env.MIN_COVERAGE) }}
       uses: actions/github-script@v6
