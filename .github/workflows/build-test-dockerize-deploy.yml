@@ -61,6 +61,9 @@ jobs:
     - name: Make Gradle Executable
       run: chmod +x ./gradlew
 
+    - name: Run Tests
+      run: ./gradlew test --tests *com*
+
     - name: Run Coverage
       run: ./gradlew jacocoTestReport
 
