@@ -59,7 +59,7 @@ jobs:
 
       run: echo "$COVERAGE - $MIN_COVERAGE
 
-      if: ${{ env.COVERAGE < MIN }}
+      if: ${{ $COVERAGE < $MIN }}
         echo "LESSS"!
 
       ##uses: actions/github-script@v6
