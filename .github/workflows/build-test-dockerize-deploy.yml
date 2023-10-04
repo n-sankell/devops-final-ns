@@ -62,8 +62,6 @@ jobs:
       with:
         script: |
           core.setFailed('Overall coverage is less than ${{ env.MIN_COVERAGE }}%!')
-        else:
-          echo "Nice! Coverage was $COVERAGE%"
 
   run-integration-test:
     needs: build-test-check-coverage
