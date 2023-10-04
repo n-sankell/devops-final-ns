@@ -52,20 +52,21 @@ jobs:
         debug-mode: false
         update-comment: true
 
+    - name: Debug Output
+      run: |
+        echo "Coverage Overall: ${{ steps.jacoco.outputs.coverage-overall }}"
+        echo "MIN_COVERAGE: ${{ env.MIN_COVERAGE }}"
+
     - name: Require ${{ env.MIN_COVERAGE }}% coverage
       env:
         MIN: ${{ env.MIN_COVERAGE }}
         COVERAGE: ${{ steps.jacoco.outputs.coverage-overall }}
-
-      run: echo "$COVERAGE - $MIN_COVERAGE
-
-      ##if: $COVERAGE < $MIN
-      ##  echo "LESSS"!
-
-      ##uses: actions/github-script@v6
-      ##with:
-      ##  script: |
-      ##    core.setFailed('Overall coverage is less than ${{ env.MIN_COVERAGE }}%!')
+      run: echo "$MIN - $COVERAGE"
+      ##if: ${{ $COVERAGE < $MIN }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          core.setFailed('Overall coverage is less than ${{ env.MIN_COVERAGE }}%!')
 
   run-integration-test:
     needs: build-test-check-coverage
