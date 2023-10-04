@@ -46,14 +46,14 @@ jobs:
         paths: |
           ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
         token: ${{ secrets.GITHUB_TOKEN }}
-        title: Coverage report, requires 80%
+        title: Coverage report (requires  ${{ env.MIN_COVERAGE }}%)
         min-coverage-overall: ${{ env.MIN_COVERAGE }}
         min-coverage-changed-files: ${{ env.MIN_COVERAGE }}
         debug-mode: false
         update-comment: true
 
-    - name: Require 80% coverage
-      if: ${{ steps.jacoco.outputs.coverage-overall < env.MIN_COVERAGE }}
+    - name: Require ${{ env.MIN_COVERAGE }}% coverage
+      if: ${{ steps.jacoco.outputs.coverage-overall }} < ${{ MIN_COVERAGE }}
       uses: actions/github-script@v6
       with:
         script: |
