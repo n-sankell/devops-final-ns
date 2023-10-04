@@ -6,7 +6,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  MIN_COVERAGE: 80
+  MIN_COVERAGE: 80.0
   
 jobs:
   build-test-check-coverage:
