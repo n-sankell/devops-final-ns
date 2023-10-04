@@ -59,8 +59,8 @@ jobs:
 
       run: echo "$COVERAGE - $MIN_COVERAGE
 
-      if: $COVERAGE < $MIN
-        echo "LESSS"!
+      ##if: $COVERAGE < $MIN
+      ##  echo "LESSS"!
 
       ##uses: actions/github-script@v6
       ##with:
