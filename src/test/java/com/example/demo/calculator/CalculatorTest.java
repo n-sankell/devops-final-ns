@@ -1,9 +1,11 @@
 package com.example.demo.calculator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
 
@@ -16,17 +18,17 @@ class CalculatorTest {
 
     @Test
     void calculateAdd() {
-        assertEquals(calculator.calculate("5", "7", "+"), 12, 0);
+        assertEquals(12, calculator.calculate("5", "7", "+"), 0);
     }
 
     @Test
     void calculateAddFalse() {
-        assertNotEquals(calculator.calculate("5", "7", "+"), 13, 0);
+        assertNotEquals(13, calculator.calculate("5", "7", "+"), 0);
     }
 
     @Test
     void calculateSubtract() {
-        assertEquals(calculator.calculate("5", "7", "-"), -2, 0);
+        assertEquals(-2, calculator.calculate("5", "7", "-"), 0);
     }
 
     @Test
@@ -36,27 +38,27 @@ class CalculatorTest {
 
     @Test
     void calculateMultiply() {
-        assertEquals(calculator.calculate("5", "2", "*"), 10, 0);
+        assertEquals(10, calculator.calculate("5", "2", "*"), 0);
     }
 
     @Test
     void calculateMultiplyFalse() {
-        assertNotEquals(calculator.calculate("5", "2", "*"), 11, 0);
+        assertNotEquals(11, calculator.calculate("5", "2", "*"), 0);
     }
 
     @Test
     void calculateDivide() {
-        assertEquals(calculator.calculate("5", "2", "/"), 2.5, 0);
+        assertEquals(2.5, calculator.calculate("5", "2", "/"), 0);
     }
 
     @Test
     void calculateDivideFalse() {
-        assertNotEquals(calculator.calculate("5", "2", "/"), 2.7, 0);
+        assertNotEquals(2.7, calculator.calculate("5", "2", "/"), 0);
     }
 
     @Test
     void parseOperand() {
-        assertEquals(calculator.parseOperator("*"), '*');
+        assertEquals('*', calculator.parseOperator("*"));
     }
 
     @Test

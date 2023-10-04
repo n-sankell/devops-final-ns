@@ -1,4 +1,4 @@
-package integration;
+package com.example.demo;
 
 import com.example.demo.calculator.Constants;
 import com.example.demo.request.CalculateRequest;
@@ -11,13 +11,17 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class IntegrationTest {
+/**
+* This test class performs a system level integration-test to the /calculate end-point.
+* Rest Assured and ObjectMapper is used to test the end-point.
+*/
+public class SystemIntegrationTest {
 
     public final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void testCalculatorEndpointCorrectResult() throws JsonProcessingException {
-        CalculateRequest request = new CalculateRequest("1","1","+");
+        CalculateRequest request = new CalculateRequest("1", "1", "+");
         RestAssured.baseURI = "http://localhost:8080";
         given()
                 .contentType(ContentType.JSON)
@@ -31,7 +35,7 @@ public class IntegrationTest {
 
     @Test
     public void testCalculatorErrorMessage() throws JsonProcessingException {
-        CalculateRequest request = new CalculateRequest("1","1","h");
+        CalculateRequest request = new CalculateRequest("1", "1", "h");
         RestAssured.baseURI = "http://localhost:8080";
         given()
                 .contentType(ContentType.JSON)
@@ -44,4 +48,3 @@ public class IntegrationTest {
     }
 
 }
-
