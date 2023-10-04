@@ -1,5 +1,8 @@
 package integration;
 
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+
 import com.example.demo.calculator.Constants;
 import com.example.demo.request.CalculateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,16 +11,13 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
-
 public class IntegrationTest {
 
     public final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void testCalculatorEndpointCorrectResult() throws JsonProcessingException {
-        CalculateRequest request = new CalculateRequest("1","1","+");
+        CalculateRequest request = new CalculateRequest("1", "1", "+");
         RestAssured.baseURI = "http://localhost:8080";
         given()
                 .contentType(ContentType.JSON)
@@ -31,7 +31,7 @@ public class IntegrationTest {
 
     @Test
     public void testCalculatorErrorMessage() throws JsonProcessingException {
-        CalculateRequest request = new CalculateRequest("1","1","h");
+        CalculateRequest request = new CalculateRequest("1", "1", "h");
         RestAssured.baseURI = "http://localhost:8080";
         given()
                 .contentType(ContentType.JSON)
