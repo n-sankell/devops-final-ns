@@ -38,6 +38,13 @@ jobs:
       - name: Run Tests
         run: ./gradlew test
 
+      - name: Jacoco Report
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
+
       - name: Require ${{ env.MIN_COVERAGE }}% coverage
         env:
           MIN: ${{ env.MIN_COVERAGE }}
