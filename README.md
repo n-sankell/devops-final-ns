@@ -32,4 +32,4 @@ The operator can be +, -, * or /
 - Calculator layer
 
 ## API-Endpoints
-- [/calculaten](src/main/java/com/example/demo/controller/CalculatorController.java)
+- [/calculate](src/main/java/com/example/demo/controller/CalculatorController.java)
