@@ -38,10 +38,13 @@ public class CalculatorController {
         }
     }
 
+    /**
+    * This method returns a greeting String and OK status-code.
+    * Used mainly for health-check tests.
+    */
     @GetMapping("/")
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok().body("Calculator app!");
-
     }
 
 }
