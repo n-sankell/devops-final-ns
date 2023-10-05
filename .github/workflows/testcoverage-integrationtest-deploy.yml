@@ -148,7 +148,7 @@ jobs:
 
     services:
       app:
-        image: ghcr.io/${{ github.repository }}:latest
+        image: ghcr.io/${{ github.repository }}:${{ org.opencontainers.image.version }}
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
