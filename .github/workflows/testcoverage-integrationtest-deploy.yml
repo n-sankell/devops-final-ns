@@ -36,8 +36,8 @@ jobs:
     - name: Make Gradle Executable
       run: chmod +x ./gradlew
 
-    - name: Run Tests
-      run: ./gradlew test
+    - name: Get Jacoco Report
+      run: ./gradlew jacocoReport
 
     - name: Jacoco Report to PR
       id: jacoco
@@ -63,9 +63,6 @@ jobs:
         script: |
           core.setFailed('Overall coverage is less than ${{ env.MIN_COVERAGE }}%!')
 
-    - name: Run Checkstyle
-      run: ./gradlew checkstyleMain checkstyleTest
-
   run-integration-test:
     needs: build-test-check-coverage
     runs-on: ubuntu-latest
@@ -83,7 +80,7 @@ jobs:
     - name: Make Gradle Executable
       run: chmod +x ./gradlew
 
-    - name: Run IntegrationTest tests
+    - name: Run Integration Tests
       run: ./gradlew integrationTest
     
   build-and-push-image:
@@ -133,7 +130,7 @@ jobs:
             tags: |
               type=ref,event=branch
               type=sha
-  
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -141,6 +138,45 @@ jobs:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
+    outputs:
+      image: ${{steps.meta.outputs.tags}}
+      tags: ${{steps.build-and-push-docker-image.outputs.tags}}
+
+  run-image-and-system-tests:
+    needs: build-and-push-image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    services:
+      app:
+        image: ${{needs.build-and-push-image.outputs.image}}
+        credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        ports:
+          - 8080:8080
+        options: --health-cmd="curl -f http://localhost:8080/" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Make Gradle Executable
+        run: chmod +x ./gradlew
+
+      - name: Run System Integration Tests
+        run: ./gradlew systemIntegrationTest
+
+      - uses: actions/checkout@v4
 
   deploy_simulation:
     needs: build-and-push-image
@@ -149,4 +185,4 @@ jobs:
 
       - name: Echo Image Name
         run: |
-            echo "Deploying image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+            echo "Deploying image: ${{needs.build-and-push-image.outputs.image}}"

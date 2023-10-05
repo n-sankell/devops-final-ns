@@ -5,6 +5,7 @@ import com.example.demo.service.CalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -35,6 +36,12 @@ public class CalculatorController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok().body("Calculator app!");
+
     }
 
 }
