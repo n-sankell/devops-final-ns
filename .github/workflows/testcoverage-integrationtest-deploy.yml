@@ -154,7 +154,6 @@ jobs:
       app:
         image: $IMAGE_TAG
         credentials:
-          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         ports:
