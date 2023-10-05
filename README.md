@@ -35,15 +35,19 @@ The operator can be +, -, * or /
 - [/calculate](src/main/java/com/example/demo/controller/CalculatorController.java)
 - [/hello](src/main/java/com/example/demo/controller/CalculatorController.java)
 ## Workflow
+Guidelines for this projects CI/CD
+
+We use GitHub actions for CI/CD, with automated tests on unit- and system level.
+
 The developers in this project won't be able to push to the main branch, 
 instead create a feature branch and make a pull-request to the main branch.
 
 Before you push code, run the tests with ./gradlew test and ./gradlew integrationTest to see if everything is working.
 The gradle test tasks is configured to streamline your testing. 
 
-When code gets pushed to GitHub, all Unit tests and a Checkstyle test gets performed.
+When code gets pushed to GitHub it will trigger the Unit tests and a Checkstyle tests.
 Make sure to write clean and well formatted code, checkstyle has a maximum of 5 warnings, 
-otherwise you cannot merge with the main branch.
+otherwise you will not be able to merge with the main branch.
 
 Every time you push code, all unit tests will run, giving you direct feedback if your code is working as it should.
 
