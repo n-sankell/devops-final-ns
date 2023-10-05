@@ -148,7 +148,7 @@ jobs:
 
     services:
       app:
-        image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        image: ghcr.io/${{ github.repository }}:latest
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
