@@ -18,12 +18,12 @@ class CalculatorTest {
 
     @Test
     void calculateAdd() {
-        assertEquals(12, calculator.calculate("5", "7", "+"), 0);
+        assertEquals(12, calculator.calculate("5","7","+"),0);
     }
 
     @Test
     void calculateAddFalse() {
-        assertNotEquals(13, calculator.calculate("5", "7", "+"), 0);
+        assertNotEquals(13, calculator.calculate("5","7","+"),0);
     }
 
     @Test
