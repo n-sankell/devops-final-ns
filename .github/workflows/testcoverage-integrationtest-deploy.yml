@@ -138,6 +138,9 @@ jobs:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
+    outputs:
+      image: ${{steps.build-and-push-docker-image.outputs.imageFullName}}
+      tags: ${{steps.build-and-push-docker-image.outputs.tags}}
 
   run-image:
     needs: build-and-push-image
@@ -148,7 +151,7 @@ jobs:
 
     services:
       app:
-        image: ${{ github.repository }}:${{ github.head_ref }}"
+        image: ${{ needs.build-and-push-image.outputs.image }}:${{needs.build-and-push-image.outputs.tags}}"
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
