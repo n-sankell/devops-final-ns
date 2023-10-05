@@ -151,7 +151,7 @@ jobs:
 
     services:
       app:
-        image: ${{ needs.build-and-push-image.outputs.image }}:${{needs.build-and-push-image.outputs.tags}}"
+        image: ${{ needs.build-and-push-image.outputs.image}}:${{needs.build-and-push-image.outputs.tags}}"
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
