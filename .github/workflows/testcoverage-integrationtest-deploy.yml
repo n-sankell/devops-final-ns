@@ -133,7 +133,7 @@ jobs:
 
       - name: Set image-name-env
         run: |
-          echo "{IMAGE_TAG}=${{ steps.meta.outputs.tags }}" >> "$GITHUB_ENV"
+          echo "IMAGE_TAG=${{ steps.meta.outputs.tags }}" >> "$GITHUB_ENV"
           echo $IMAGE_TAG
 
       - name: Build and push Docker image
