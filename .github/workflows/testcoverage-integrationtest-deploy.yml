@@ -148,7 +148,7 @@ jobs:
 
     services:
       app:
-        image: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.tags }}
+        image: ghcr.io/${{ github.repository }}
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
