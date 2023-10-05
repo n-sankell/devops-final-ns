@@ -7,6 +7,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   MIN_COVERAGE: 80
+  IMAGE_TAG: ''
   
 jobs:
   build-test-check-coverage:
@@ -130,7 +131,12 @@ jobs:
             tags: |
               type=ref,event=branch
               type=sha
-  
+
+      - name: Set image-name-env
+        run: |
+          ${{ env.IMAGE_TAG = steps.meta.outputs.tags }}
+          echo ${{ env.IMAGE_NAME }}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -148,7 +154,7 @@ jobs:
 
     services:
       app:
-        image: ghcr.io/${{ github.repository }}
+        image: ghcr.io/${{ github.repository }}:${{ env.IMAGE_NAME }}
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
