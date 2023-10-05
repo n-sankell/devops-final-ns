@@ -9,16 +9,22 @@ This repository contains a calculator using Java and Spring Boot.
 - [API Endpoints](#API-Endpoints)
 - [Workflow](#Workflow)
 ## Features
-Provide two numbers (x & y) and one operator.
-The operator can be +, -, * or /
+Provide numbers **x**, **y** and one **operator** in a [calculateRequest](src/main/java/com/example/demo/request/CalculateRequest.java) to the [/calculate](src/main/java/com/example/demo/controller/CalculatorController.java) endpoint.
+
+The valid operators are:
+- Addition
+- Subtraction
+- Multiplication
+- Division.
 ## Prerequisites
 - Java 
+- SpringBoot
 - Gradle
-- JaCoCo
-- Checkstyle
 - JUnit5
 - MockMwc
 - Rest Assured
+- JaCoCo
+- Checkstyle
 ## Getting Started
 1. Clone the repository:
    ```bash
@@ -57,4 +63,10 @@ You will see the calculation and where it needs coverage as a comment in the pul
 
 If all previous steps pass, the integration and system tests will run, if all is successful the merge will be allowed.
 
-Happy coding!
+## Useful commands
+- **_./gradlew test_** (runs all unit-tests)
+- **_./gradlew integrationTest_** (runs all integration tests)
+- **_./gradlew systemIntegrationTest_** (runs system tests, this requires a running instance of the app)
+- **_./gradlew checkstyleMain checkstyleTest_** (get a checkstyle report)
+
+Happy coding!S
