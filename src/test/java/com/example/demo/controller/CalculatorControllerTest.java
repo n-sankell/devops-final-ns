@@ -30,4 +30,11 @@ class CalculatorControllerTest {
         assertEquals(Constants.DISALLOWED_OPERATOR, response.getBody());
     }
 
+    @Test
+    void testControllerHello() {
+        ResponseEntity<String> response = controller.hello();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Calculator app!", response.getBody());
+    }
+
 }
