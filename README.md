@@ -38,6 +38,9 @@ The operator can be +, -, * or /
 The developers in this project won't be able to push to the main branch, 
 instead create a feature branch and make a pull-request to the main branch.
 
+Before you push code, run the tests with ./gradlew test and ./gradlew integrationTest to see if everything is working.
+The gradle test tasks is configured to streamline your testing. 
+
 When code gets pushed to GitHub, all Unit tests and a Checkstyle test gets performed.
 Make sure to write clean and well formatted code, checkstyle has a maximum of 5 warnings, 
 otherwise you cannot merge with the main branch.
