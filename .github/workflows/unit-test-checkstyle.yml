@@ -8,7 +8,7 @@ env:
 
 jobs:
 
-  build-test-checkstyle-coverage:
+  build-test-checkstyle:
     runs-on: ubuntu-latest
     permissions:
       contents: read
