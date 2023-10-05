@@ -138,6 +138,7 @@ jobs:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
+        run: echo ${{steps.meta.outputs.tags}}
     outputs:
       image: ${{steps.build-and-push-docker-image.outputs.imageFullName}}
       tags: ${{steps.build-and-push-docker-image.outputs.tags}}
@@ -151,13 +152,13 @@ jobs:
 
     services:
       app:
-        image: ${{ needs.build-and-push-image.outputs.image}}:${{needs.build-and-push-image.outputs.tags}}"
+        image: ${{needs.build-and-push-image.outputs.image}}:${{needs.build-and-push-image.outputs.tags}}
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         ports:
           - 8080:8080
-        options: --health-cmd="curl -f http://localhost:8080" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="curl -f http://localhost:8080/calculate" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v4
 
