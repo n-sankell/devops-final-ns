@@ -19,6 +19,7 @@ public class SystemIntegrationTest {
 
     public final ObjectMapper objectMapper = new ObjectMapper();
 
+
     @Test
     public void testCalculatorEndpointCorrectResult() throws JsonProcessingException {
         CalculateRequest request = new CalculateRequest("1", "1", "+");
